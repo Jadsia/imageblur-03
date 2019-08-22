@@ -29,19 +29,14 @@ class Image
     end
   end
 
-  def blur(distance)
-  end
-
-
-  def transform_neighbors(one_coordinate)
-
+  def blur(distance, one_coordinate)
     x = one_coordinate.first
     y = one_coordinate.second
 
-    top = [x-1, y]
-    bottom = [x+1, y]
-    left = [x, y-1]
-    right = [x, y+1]
+    top = [x-1, y], [x-2, y]
+    bottom = [x+1, y], [x+2, y]
+    left = [x, y-1], [x, y-2]
+    right = [x, y+1], [x, y-2]
 
     array[top.first][top.second] = 1
     array[bottom.first][bottom.second] = 1
@@ -51,8 +46,8 @@ class Image
 
   def final_transform(ones_coordinates)
     for one_coordinate in ones_coordinates do
-	  transform_neighbors(one_coordinate)
-	end
+	   blur(one_coordinate)
+	  end
   end
 
 end
@@ -68,7 +63,7 @@ image.output_image
 
 ones_coordinates =  image.find_ones # => [[2, 1], [3, 0], [4, 3]]
 
-result_image = image.final_transform(ones_coordinates)
+result_image = image.blur(ones_coordinates)
 
 
 
