@@ -29,6 +29,10 @@ class Image
     end
   end
 
+  def blur(distance)
+  end
+
+
   def transform_neighbors(one_coordinate)
 
     x = one_coordinate.first
@@ -54,10 +58,11 @@ class Image
 end
 
 image = Image.new([
-  [0, 0, 0, 0],
-  [0, 1, 0, 0],
-  [0, 0, 1, 0],
-  [0, 0, 0, 0]
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ])
 image.output_image
 
