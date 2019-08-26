@@ -5,6 +5,13 @@ class Image
     @array = array
   end
 
+
+  def blur(distance = 1)
+	ones_coordinates = find_ones
+    result = final_transform(ones_coordinates, distance)
+    output_image
+  end
+
   def find_ones
     coordinates = []
 
@@ -20,6 +27,7 @@ class Image
   end
 
   def output_image
+  puts "\n"
     array.each_index do |row|
       subarray = array[row]
       subarray.each_index do |col|
@@ -29,41 +37,58 @@ class Image
     end
   end
 
-  def blur(distance, one_coordinate)
-    x = one_coordinate.first
-    y = one_coordinate.second
+  def transform_neighbors(one_coordinate, distance)
+    x = one_coordinate[0]
+    y = one_coordinate[1]
 
-    top = [x-1, y], [x-2, y]
-    bottom = [x+1, y], [x+2, y]
-    left = [x, y-1], [x, y-2]
-    right = [x, y+1], [x, y-2]
+    #up
+    for i in 1..distance do
+      new_y = y + i
+      array[x][new_y] = 1
+    end
 
-    array[top.first][top.second] = 1
-    array[bottom.first][bottom.second] = 1
-    array[left.first][left.second] = 1
-    array[right.first][right.second] = 1
+    #right
+    for i in 1..distance do
+      new_x = x + i
+      array[new_x][y] = 1
+    end
+
+    #down
+    for i in 1..distance do
+      new_y = y - i
+      array[x][new_y] = 1
+    end
+
+    #left
+    for i in 1..distance do
+      new_x = x - i
+      array[new_x][y] = 1
+    end
+
+
   end
 
-  def final_transform(ones_coordinates)
+  def final_transform(ones_coordinates, distance)
     for one_coordinate in ones_coordinates do
-	   blur(one_coordinate)
-	  end
+	  transform_neighbors(one_coordinate, distance)
+	end
   end
+
 
 end
 
 image = Image.new([
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 0, 0, 1, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 1, 0, 1, 0, 0, 0, 0, 0],
   [0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+  [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 ])
 image.output_image
 
 ones_coordinates =  image.find_ones # => [[2, 1], [3, 0], [4, 3]]
 
-result_image = image.blur(ones_coordinates)
-
-
+result_image = image.blur(2)
 
