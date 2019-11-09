@@ -4,7 +4,7 @@ A homework assignment from the Spring 2019 UC Berkeley Full Stack Bootcamp
 
 ## Imageblur 
 
-Ruby code that changes elements of an arrat using the tansform property
+Ruby code that changes elements of an array using the tansform property
 
 ## Running the code
 
